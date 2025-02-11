@@ -10,14 +10,20 @@ export default function Navbar() {
     const { setTheme } = useTheme()
   return (
     <div className="flex justify-between items-center p-6">
-      <Image className="h-8 w-32" src={logo} alt="thisislogo" />
+      <Image className="h-8 w-32 cursor-pointer" src={logo} alt="thisislogo" />
       <div className="flex gap-8 font-bold opacity-70">
-        <div className="bg-[#F2F2F6] p-2 rounded-md">
+        <div className="bg-[#F2F2F6]  cursor-pointer p-2 rounded-md">
         <p>Homepages</p>
         </div>
+        <div className="hover:bg-[#F2F2F6] p-2 cursor-pointer rounded-md">
         <p>features</p>
+        </div>
+        <div className="hover:bg-[#F2F2F6] p-2  cursor-pointer rounded-md">
         <p>About</p>
+        </div>
+        <div className="hover:bg-[#F2F2F6] p-2  cursor-pointer rounded-md">
         <p>Contact</p>
+        </div>
       </div>
       <div className="flex gap-6 items-center">
         <div className="flex items-center">
