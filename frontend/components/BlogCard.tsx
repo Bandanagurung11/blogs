@@ -33,26 +33,32 @@ export default function BlogCard() {
   return (
     <div className="py-12 w-8/12 mx-auto space-y-12">
       {cards.map((card, index) => (
-        <div key={index} className="flex items-center gap-6">
-          <Image
-            className="h-[200px] w-[800px] rounded-md"
-            src={card.image}
-            height={100}
-            width={100}
-            alt="this is image"
-          />
-          <div className="space-y-4">
-            <p>{card.author} </p>
-            <p className="text-xl font-bold opacity-80">{card.title} </p>
-            <p className="opacity-60">{card.content} </p>
-            <Link href="blog/view">
-              <Button className="text-bold bg-[#7E7AEC] hover:bg-[#7E7AEC] text-white hover:shadow-2xl">
-                Discover More
-              </Button>
-            </Link>
-          </div>
+        <div key={index} className="flex flex-col items-center gap-6">
+          <div className="flex items-center gap-6">
+            <Image
+              className="h-[200px] w-[800px] rounded-md"
+              src={card.image}
+              height={100}
+              width={100}
+              alt="this is image"
+            />
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <p>{card.author} </p>
+                <p className="text-xl font-bold opacity-80">{card.title} </p>
+                <p className="opacity-60">{card.content} </p>
+              </div>
+              <Link href={`blog/view`} className="mt-6">
+                <Button className="text-bold bg-[#7E7AEC] hover:bg-[#7E7AEC] text-white hover:shadow-2xl">
+                  Discover More
+                </Button>
+              </Link>
+            </div>
 
-          <hr className="my-6 border-t border-gray-300" />
+            {/* {index !== cards.length - 1 && <hr className="border-t border-gray-300" />}
+             */}
+          </div>
+          <hr className="my-6 border-t border-gray-300 w-full" />
         </div>
       ))}
     </div>
