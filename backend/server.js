@@ -12,6 +12,18 @@ app.use(express.json());
 // data get and send in object format only
 app.use(cors());
 
+import multer from "multer"; // to extract data from frontend to the server in form-data format
+
+const upload = multer({ dest: "uploads/" });
+
+import { v2 as cloudinary } from "cloudinary";
+
+cloudinary.config({ 
+  cloud_name: process.env.CLOUD_NAME, 
+  api_key: process.env.API_KEY, 
+  api_secret: process.env.API_SECRET,
+});
+
 try {
   mongoose.connect(process.env.MONGODB_URL);
   console.log("database connected successfully");
@@ -127,9 +139,15 @@ const articleSchema = new mongoose.Schema({
 
 const ArticleTable = mongoose.model("article", articleSchema);
 
-app.post("/articles", async (req, res) => {
+app.post("/articles", upload.single("thumnail"), async (req, res) => {
   try {
-    const createarticle = await ArticleTable(req.body).save();
+    console.log(req.file, "req.file");
+    console.log(req.body, "req.body");
+
+    const cloudinaryResponse = await cloudinary.uploader.upload(req.file.path);
+    console.log(cloudinaryResponse, "cloudinary response");
+
+    const createarticle = await ArticleTable({...req.body, thumnail:cloudinaryResponse.secure_url}).save();
     return res
       .status(200)
       .json({
@@ -145,12 +163,10 @@ app.post("/articles", async (req, res) => {
 app.get("/articles", async (req, res) => {
   try {
     const fetchArticles = await ArticleTable.find();
-    return res
-      .status(200)
-      .json({
-        message: "all articles fetch sucessfully",
-        articles: fetchArticles,
-      });
+    return res.status(200).json({
+      message: "all articles fetch sucessfully",
+      articles: fetchArticles,
+    });
   } catch (error) {
     console.log("something went wrong", error);
     return res.status(500).json({ message: "server error" });
@@ -160,23 +176,26 @@ app.get("/articles", async (req, res) => {
 app.get("/articles/:id", async (req, res) => {
   try {
     const fetchArticle = await ArticleTable.findById(req.params.id);
-    return res
-      .status(200)
-      .json({
-        message: "all articles fetch sucessfully",
-        articles: fetchArticle,
-      });
+    return res.status(200).json({
+      message: "all articles fetch sucessfully",
+      articles: fetchArticle,
+    });
   } catch (error) {
     console.log("something went wrong", error);
     return res.status(500).json({ message: "server error" });
   }
 });
 
-app.patch("/articles/:id", async (req, res) => {
+app.patch("/articles/:id", upload.single("thumnail"), async (req, res) => {
   try {
+
+    if(req.file){
+      const cloudinaryResponse = await cloudinary.uploader.upload(req.file.path);
+    console.log(cloudinaryResponse, "cloudinary response");
+    }
     const updatedArticle = await ArticleTable.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      {...req.body, thumnail:cloudinaryResponse.secure_url},
       { new: true }
     );
     if (!updatedArticle) {
