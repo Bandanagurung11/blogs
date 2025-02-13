@@ -82,7 +82,7 @@ export default function Footer() {
         <p className="text-sm font-bold">Pure inspiration, zero spam ✨</p>
       </div>
       <hr />
-      <div className="grid grid-cols-7 py-12">
+      <div className="grid grid-cols-7 py-12 px-4">
         <div className="col-span-4 space-y-24">
           <div className="space-y-4">
             <Image

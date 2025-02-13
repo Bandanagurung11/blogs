@@ -43,12 +43,12 @@ export default function BlogCard() {
               alt="this is image"
             />
             <div className="space-y-6">
-              <div className="space-y-2">
+              <div className="space-y-2 mb-8">
                 <p>{card.author} </p>
                 <p className="text-xl font-bold opacity-80">{card.title} </p>
                 <p className="opacity-60">{card.content} </p>
               </div>
-              <Link href={`blog/view`} className="mt-6">
+              <Link href={`blog/view`}>
                 <Button className="text-bold bg-[#7E7AEC] hover:bg-[#7E7AEC] text-white hover:shadow-2xl">
                   Discover More
                 </Button>

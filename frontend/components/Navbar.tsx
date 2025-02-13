@@ -19,6 +19,12 @@ import { useTheme } from "next-themes";
 //   HoverCardTrigger,
 // } from "@/components/ui/hover-card";
 
+import {
+  Card
+} from "@/components/ui/card"
+import Link from "next/link";
+
+
 export default function Navbar() {
   const homepaemenu = [
     {
@@ -54,61 +60,115 @@ export default function Navbar() {
       name: "Full Overlay",
     },
   ];
+
+  const featuresmenu=[
+    {
+      id:1,
+      name: "Post Headers",
+    },
+    {
+      id:2,
+      name: "Layout",
+    },
+    {
+      id:3,
+      name: "Auto LoadNextPost",
+    },
+    {
+      id:4,
+      name: "Categories",
+    },
+  ]
   const { setTheme } = useTheme();
-  const [menuOpen, setMenuOpen] = useState(false);
-  console.log(menuOpen);
+  const [menuOpen, setMenuOpen] = useState<string | null>(null);
+  const [menuLeaveTimeout, setMenuLeaveTimeout] = useState<NodeJS.Timeout | null>(null);
+
+  const handleMouseEnter = (menuName:string) => {
+    if (menuLeaveTimeout !== null) {
+      clearTimeout(menuLeaveTimeout);
+    }
+    setMenuOpen(menuName);
+  };
+  
+  const handleMouseLeave = () => {
+    if (menuLeaveTimeout !== null) {
+      clearTimeout(menuLeaveTimeout);
+    }
+    setMenuLeaveTimeout(
+      setTimeout(() => {
+        setMenuOpen(null);
+      }, 50) // adjust the delay time as needed
+    );
+  };
+  
+  const handleMenuItemMouseEnter = () => {
+    if (menuLeaveTimeout !== null) {
+      clearTimeout(menuLeaveTimeout);
+    }
+  };
+  
+  // console.log(menuOpen);
   return (
-    <div className="flex justify-between items-center p-2">
+    <div className="flex justify-between items-center p-6">
       <Image className="h-8 w-32 cursor-pointer" src={logo} alt="thisislogo" />
       <div className="flex gap-6">
         <div
-          className="relative"
-          onMouseEnter={() => setMenuOpen(true)}
-          onMouseLeave={() => setMenuOpen(false)}
+        className="relative"
+        onMouseEnter={() => handleMouseEnter('homepages')}
+        onMouseLeave={handleMouseLeave}
         >
           {/* Menu Trigger */}
           <div className="bg-[#F2F2F6] flex gap-1 items-center cursor-pointer p-2 rounded-md">
             <p>Homepages</p>
-            {menuOpen ? (
+            {menuOpen === 'homepages' as string? (
               <ChevronUp className="h-5 w-5" />
             ) : (
               <ChevronDown className="h-5 w-5" />
             )}
           </div>
           {/* Menu Items (Dropdown) */}
-          {menuOpen && (
-            <div
-              className={`absolute left-0 mt-2 w-64 bg-[#f8f5f5] shadow-2xl rounded-md p-4 space-y-2
-            transition-all duration-700 ease-in-out transform ${
-              menuOpen ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible"
-            }`}
-            >
+          {menuOpen === 'homepages' as string && (
+            <Card className=" w-64 py-6 px-4 space-y-2 absolute top-full left-0 mt-2 z-10" onMouseEnter={handleMenuItemMouseEnter}>
               {homepaemenu.map((each) => (
                 <p
                   key={each.id}
-                  className="px-4 py-1 text-base rounded-md  hover:bg-[#F2F2F6] cursor-pointer hover:translate-x-2 transition duration-700 ease-in-out"
+                  className="px-4 py-1 text-sm font-bold opacity-70 rounded-md  hover:bg-[#F2F2F6] cursor-pointer hover:translate-x-2 transition duration-700 ease-in-out"
                 >
                   {each.name}
                 </p>
               ))}
-            </div>
+            </Card>
           )}
         </div>
 
-        {/* <HoverCard>
-          <HoverCardTrigger>
-            <div className="hover:bg-[#F2F2F6] p-2 cursor-pointer rounded-md">
-              <p>Features</p>
-            </div>
-          </HoverCardTrigger>
-          <HoverCardContent>
-            <p>Post Headers</p>
-            <p>Layout</p>
-            <p>Auto Load Next Project</p>
-            <p>Categories</p>
-
-          </HoverCardContent>
-        </HoverCard> */}
+        <div
+        className="relative"
+        onMouseEnter={() => handleMouseEnter('features')}
+        onMouseLeave={handleMouseLeave}
+        >
+          {/* Menu Trigger */}
+          <div className="hover:bg-[#F2F2F6] flex gap-1 items-center cursor-pointer p-2 rounded-md">
+            <p>Features</p>
+            {menuOpen === 'features' as string ? (
+              <ChevronUp className="h-5 w-5" />
+            ) : (
+              <ChevronDown className="h-5 w-5" />
+            )}
+          </div>
+          {/* Menu Items (Dropdown) */}
+          {menuOpen === 'features' as string && (
+            <Card className=" w-64 py-6 px-4 space-y-2 absolute top-full left-0 mt-2 z-10" onMouseEnter={handleMenuItemMouseEnter}>
+              {featuresmenu.map((each) => (
+                <p
+                  key={each.id}
+                  className="px-4 py-1 text-sm font-bold opacity-70 rounded-md  hover:bg-[#F2F2F6] cursor-pointer hover:translate-x-2 transition duration-700 ease-in-out"
+                >
+                  {each.name}
+                </p>
+              ))}
+            </Card>
+          )}
+        </div>
 
         <div className="hover:bg-[#F2F2F6] p-2  cursor-pointer rounded-md">
           <p>About</p>
@@ -117,37 +177,7 @@ export default function Navbar() {
           <p>Contact</p>
         </div>
       </div>
-      {/* <div className="flex gap-8 font-bold opacity-70">
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <div
-              className="bg-[#F2F2F6] flex gap-1 items-center  cursor-pointer p-2 rounded-md border border-none"
-              onMouseEnter={()=>setMenuOpen(true)}
-              onMouseLeave={()=>setMenuOpen(false)}
-            >
-              <p>Homepages</p>
-              { menuOpen? <p><ChevronUp className="h-5 w-5" /></p>
-              :
-              <p><ChevronDown className="h-5 w-5" /></p>
-              }
-              
-            </div>
-          </DropdownMenuTrigger>
-          {menuOpen  && (<DropdownMenuContent
-            className="w-64 px-4 space-y-2 py-8"
-          >
-            {homepaemenu.map((each, index) => (
-              <DropdownMenuItem
-                key={index}
-                className=" px-4 text-base cursor-pointer hover:translate-x-2 transition duration-500 ease-in-out"
-              >
-                {each.name}
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>)
-          }
-        </DropdownMenu>
-      </div> */}
+          
       <div className="flex gap-6 items-center">
         <div className="flex items-center">
           <div className="hover:bg-[#F2F2F6] p-2 rounded-full">
@@ -165,9 +195,11 @@ export default function Navbar() {
             />
           </div>
         </div>
-        <Button className="bg-[#7B78EC] font-bold hover:bg-[#6d68ef] hover:shadow-2xl">
+        <Link href="https://themeforest.net/item/revision-optimized-personal-blog-wordpress-theme/54935237?clickid=UqGSM6XMOxyKTh4V17VC8UFfUkszkKWdqT8J2A0&iradid=275988&irpid=1327917&iradtype=ONLINE_TRACKING_LINK&irmptype=mediapartner&mp_value1=" target="_blank" rel="noopener noreferrer">
+        <Button className="bg-[#7B78EC] shadow-xl font-bold hover:bg-[#6d68ef] hover:shadow-2xl">
           Buy Now
         </Button>
+        </Link>
       </div>
     </div>
   );
