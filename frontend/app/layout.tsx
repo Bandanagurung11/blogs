@@ -34,9 +34,11 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <div className="lg:w-10/12 mx-auto">
           <Navbar/>
           {children}
           <Footer/>
+          </div>
         </ThemeProvider>
       </body>
     </html>
