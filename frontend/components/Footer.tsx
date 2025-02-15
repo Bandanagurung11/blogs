@@ -64,8 +64,8 @@ export default function Footer() {
   return (
     <div>
       <div className="flex flex-col items-center space-y-4 py-16">
-        <p className="text-4xl font-bold">Subscribe to our Newsletter</p>
-        <p className="opacity-60 text-lg text-center">
+        <p className="lg:text-4xl font-bold">Subscribe to our Newsletter</p>
+        <p className="opacity-60 lg:text-lg text-center">
           Subscribe to our email newsletter to get the latest posts <br />
           delivered right to your email.
         </p>
@@ -73,7 +73,7 @@ export default function Footer() {
           <input
             type="text"
             placeholder="Enter your email"
-            className="pl-4 h-12 w-96 shadow-lg"
+            className="pl-4 h-12  w-80 lg:w-96 shadow-lg"
           />{" "}
           <Button className="absolute right-1 top-1 text-base text-white bg-[#8C88F6] hover:bg-[#8C88F6]">
             Subscribe
@@ -82,8 +82,8 @@ export default function Footer() {
         <p className="text-sm font-bold">Pure inspiration, zero spam ✨</p>
       </div>
       <hr />
-      <div className="grid grid-cols-7 py-12 px-4">
-        <div className="col-span-4 space-y-24">
+      <div className="grid lg:grid-cols-7 gap-12 py-12 px-4">
+        <div className="col-span-4 space-y-8 lg:space-y-24">
           <div className="space-y-4">
             <Image
               src={logo}
