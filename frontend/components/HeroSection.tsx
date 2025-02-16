@@ -90,7 +90,8 @@ export default function HeroSection() {
             >
               {/* <Link href={eachItems.href}> */}
               <button
-                onClick={() => router.push(eachItems.href)}
+                // onClick={() => router.push(eachItems.href)} for a static route
+                onClick={() => router.push(`/categories/${eachItems.href.toLowerCase()}`)} // for dynamic route
                 className="h-8 w-44 flex items-center justify-center gap-1 py-6 rounded-2xl shadow-xl"
               >
                 <p> {eachItems.icon}</p>

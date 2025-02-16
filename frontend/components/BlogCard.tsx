@@ -11,100 +11,77 @@ import {
   MapPin,
 } from "lucide-react";
 
-import { Swiper, SwiperSlide } from 'swiper/react';
+import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/navigation';
-import 'swiper/css/pagination';
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
-import './css/style.css';
+import "./css/style.css";
 
 // import required modules
-import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
+import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 import axios from "axios";
 import toast from "react-hot-toast";
 
 export default function BlogCard({ article, fetchArticles }) {
-  const handleDelete=async(id)=>{
+  const handleDelete = async (id) => {
     try {
-      const response = await axios.delete(`https://blogs-platform-backend.onrender.com/articles/${id}`);
+      const response = await axios.delete(
+        `https://blogs-platform-backend.onrender.com/articles/${id}`
+      );
       console.log(response);
-      toast.success("deleted succesfully")
+      toast.success("deleted succesfully");
       fetchArticles();
-
     } catch (error) {
       console.log("something went wrong", error);
       toast.error("can not delete a post");
     }
-  }
+  };
+  // console.log(article, "this is child section article");
 
-
-  console.log(article, "this is child section article");
-  // const cards = [
-  //   {
-  //     author: "Ethan Caldwell on October 16, 2024",
-  //     image:
-  //       "https://images.unsplash.com/photo-1738807991630-260f842bdf49?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  //     title: "How Tech Shapes the Future of work 2024",
-  //     content:
-  //       "In today’s ever-evolving world, storytelling has become a powerful tool for connection. Revision provides a unique platform for individuals to… ",
-  //   },
-  //   {
-  //     author: "Ethan Caldwell on October 16, 2024",
-  //     image:
-  //       "https://images.unsplash.com/photo-1734907865880-6eb669831b9e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  //     title: "How Tech Shapes the Future of work 2024",
-  //     content:
-  //       "In today’s ever-evolving world, storytelling has become a powerful tool for connection. Revision provides a unique platform for individuals to… ",
-  //   },
-  //   {
-  //     author: "Ethan Caldwell on October 16, 2024",
-  //     image:
-  //       "https://images.unsplash.com/photo-1737958108322-43b24ea9bc18?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  //     title: "How Tech Shapes the Future of work 2024",
-  //     content:
-  //       "In today’s ever-evolving world, storytelling has become a powerful tool for connection. Revision provides a unique platform for individuals to… ",
-  //   },
-  // ];
   return (
     <div className="grid lg:grid-cols-2">
       {/* blog card */}
       <div className="py-12 space-y-12">
         {article.map((card, index) => (
-         <div key={index}>
-           <Link
-            href={`/blog/view/${card._id}`}
-            
-            className="flex flex-col items-center gap-6"
-          >
-            <div className="flex items-center gap-6">
-              <Image
-                className="h-[200px] w-[800px] rounded-md"
-                src="https://plus.unsplash.com/premium_photo-1670371134786-a35201136a5b?q=80&w=1990&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                height={100}
-                width={100}
-                alt="this is image"
-              />
-              <div className="space-y-6">
-                <div className="space-y-2 mb-8">
-                  <p>{card.author} </p>
-                  <p className="text-xl font-bold opacity-80">{card.title} </p>
-                  <p className="opacity-60">{card.content} </p>
+          <div key={index}>
+            <Link
+              href={`/blog/view/${card._id}`}
+              className="flex flex-col items-center gap-6"
+            >
+              <div className="flex items-center gap-6">
+                <Image
+                  className="h-[200px] w-[800px] rounded-md"
+                  src="https://plus.unsplash.com/premium_photo-1670371134786-a35201136a5b?q=80&w=1990&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  height={100}
+                  width={100}
+                  alt="this is image"
+                />
+                <div className="space-y-6">
+                  <div className="space-y-2 mb-8">
+                    <p>{card.author} </p>
+                    <p className="text-xl font-bold opacity-80">
+                      {card.title}{" "}
+                    </p>
+                    <p className="opacity-60">{card.content} </p>
+                  </div>
+
+                  <Button className="text-bold bg-[#7E7AEC] hover:bg-[#7E7AEC] text-white hover:shadow-2xl">
+                    Discover More
+                  </Button>
                 </div>
-
-                <Button className="text-bold bg-[#7E7AEC] hover:bg-[#7E7AEC] text-white hover:shadow-2xl">
-                  Discover More
-                </Button>
               </div>
-
-              {/* {index !== cards.length - 1 && <hr className="border-t border-gray-300" />}
-               */}
-            </div>
-            <hr className="my-6 border-t border-gray-300 w-full" />
-          </Link>
-          <p className="p-2 cursor-pointer bg-red-500 rounded-md text-white" onClick={()=>handleDelete(card._id)}>delete</p>
-         </div>
+              <hr className="my-6 border-t border-gray-300 w-full" />
+            </Link>
+            <p
+              className="p-2 cursor-pointer bg-red-500 rounded-md text-white"
+              onClick={() => handleDelete(card._id)}
+            >
+              delete
+            </p>
+          </div>
         ))}
       </div>
 
@@ -162,29 +139,34 @@ export default function BlogCard({ article, fetchArticles }) {
 
         {/* second card */}
         <Card className="w-96 h-64">
-        <>
-      <Swiper
-        cssMode={true}
-        navigation={true}
-        pagination={true}
-        mousewheel={true}
-        keyboard={true}
-        modules={[Navigation, Pagination, Mousewheel, Keyboard]}
-        className="mySwiper"
-      >
-        <SwiperSlide>
-          <Image src="https://images.unsplash.com/photo-1739382122846-74e722a6eea4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="lancksdcs" height={100} width={100}></Image>
-        </SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
-        <SwiperSlide>Slide 5</SwiperSlide>
-        <SwiperSlide>Slide 6</SwiperSlide>
-        <SwiperSlide>Slide 7</SwiperSlide>
-        <SwiperSlide>Slide 8</SwiperSlide>
-        <SwiperSlide>Slide 9</SwiperSlide>
-      </Swiper>
-    </>
+          <>
+            <Swiper
+              cssMode={true}
+              navigation={true}
+              pagination={true}
+              mousewheel={true}
+              keyboard={true}
+              modules={[Navigation, Pagination, Mousewheel, Keyboard]}
+              className="mySwiper"
+            >
+              <SwiperSlide>
+                <Image
+                  src="https://images.unsplash.com/photo-1739382122846-74e722a6eea4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="lancksdcs"
+                  height={100}
+                  width={100}
+                ></Image>
+              </SwiperSlide>
+              <SwiperSlide>Slide 2</SwiperSlide>
+              <SwiperSlide>Slide 3</SwiperSlide>
+              <SwiperSlide>Slide 4</SwiperSlide>
+              <SwiperSlide>Slide 5</SwiperSlide>
+              <SwiperSlide>Slide 6</SwiperSlide>
+              <SwiperSlide>Slide 7</SwiperSlide>
+              <SwiperSlide>Slide 8</SwiperSlide>
+              <SwiperSlide>Slide 9</SwiperSlide>
+            </Swiper>
+          </>
         </Card>
 
         {/* third card */}

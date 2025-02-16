@@ -35,8 +35,13 @@ export default function LeftDrawer() {
     <Drawer 
       open={isOpen}
       direction="left"
-      className={`transition-all ${theme === "dark" ? "bg-black text-white" : "bg-white text-black"}`}
+      className=' overflow-y-auto'
       size={300}
+      style={{
+        backgroundColor: "hsl(var(--background))",
+        color: "hsl(var(--foreground))",
+        overflow: "auto",
+      }}
     >
       <div className="p-4 space-y-6">
         <div className="flex justify-between items-center">
@@ -168,7 +173,7 @@ export default function LeftDrawer() {
             <Instagram className="h-5 w-5 cursor-pointer" />
             <Linkedin className="h-5 w-5 cursor-pointer" />
           </div>
-          <div className="flex gap-2 items-center bg-[#F2F2F6] rounded-2xl p-2">
+          <div className="flex gap-2 items-center bg-[#F2F2F6] rounded-2xl p-2 dark:bg-[#3D3D3D]">
             <Sun
               className="h-5 w-5 cursor-pointer"
               onClick={() => setTheme("light")}
