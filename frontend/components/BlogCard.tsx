@@ -22,8 +22,24 @@ import './css/style.css';
 
 // import required modules
 import { Navigation, Pagination, Mousewheel, Keyboard } from 'swiper/modules';
+import axios from "axios";
+import toast from "react-hot-toast";
 
-export default function BlogCard({ article }) {
+export default function BlogCard({ article, fetchArticles }) {
+  const handleDelete=async(id)=>{
+    try {
+      const response = await axios.delete(`https://blogs-platform-backend.onrender.com/articles/${id}`);
+      console.log(response);
+      toast.success("deleted succesfully")
+      fetchArticles();
+
+    } catch (error) {
+      console.log("something went wrong", error);
+      toast.error("can not delete a post");
+    }
+  }
+
+
   console.log(article, "this is child section article");
   // const cards = [
   //   {
@@ -56,9 +72,10 @@ export default function BlogCard({ article }) {
       {/* blog card */}
       <div className="py-12 space-y-12">
         {article.map((card, index) => (
-          <Link
+         <div key={index}>
+           <Link
             href={`/blog/view/${card._id}`}
-            key={index}
+            
             className="flex flex-col items-center gap-6"
           >
             <div className="flex items-center gap-6">
@@ -86,6 +103,8 @@ export default function BlogCard({ article }) {
             </div>
             <hr className="my-6 border-t border-gray-300 w-full" />
           </Link>
+          <p className="p-2 cursor-pointer bg-red-500 rounded-md text-white" onClick={()=>handleDelete(card._id)}>delete</p>
+         </div>
         ))}
       </div>
 

@@ -25,6 +25,7 @@ import "react-modern-drawer/dist/index.css";
 import { Card } from "@/components/ui/card";
 import Link from "next/link";
 import LeftDrawer from "./onClick/LeftDrawer";
+import SearchFunctionality from "./onClick/SearchFunctionality";
 
 export default function Navbar() {
 
@@ -115,6 +116,8 @@ export default function Navbar() {
       clearTimeout(menuLeaveTimeout);
     }
   };
+
+  const [search, setSearch] = useState(false);
 
 
   // const [theme, setTheme] = useState("light");
@@ -209,8 +212,14 @@ export default function Navbar() {
 
       <div className="flex gap-6 items-center">
         <div className="flex items-center">
-          <div className="hover:bg-[#F2F2F6] dark:bg-[#3D3D3D]  p-2 rounded-full">
-            <Search className="h-5 w-5 cursor-pointer" />
+          <div className="relative">
+          <div className="relative hover:bg-[#F2F2F6] dark:bg-[#3D3D3D]  p-2 rounded-full">
+            <Search className="h-5 w-5 cursor-pointer" onClick={()=>setSearch(!search)} />
+          </div>
+          {
+            search &&
+            <SearchFunctionality/>
+          }
           </div>
           <Tally1 className=" hidden lg:block opacity-40" />
           <div className=" hidden lg:flex gap-2 items-center dark:bg-[#3D3D3D]  bg-[#F2F2F6] rounded-2xl p-2">
