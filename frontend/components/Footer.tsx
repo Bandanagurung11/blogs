@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import logo from "../images/logo@2x.png";
-import { Facebook, Instagram, Linkedin, X } from "lucide-react";
+import { Facebook, Instagram, Linkedin} from "lucide-react";
 
 export default function Footer() {
   const homepage = [

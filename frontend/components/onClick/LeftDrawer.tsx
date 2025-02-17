@@ -8,7 +8,7 @@ import { Button } from '../ui/button';
 import { useTheme } from "next-themes";
 
 export default function LeftDrawer() {
-  const {theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
    // for a drawer
    const [isOpen, setIsOpen] = useState(false);
    const toggleDrawer = () => {

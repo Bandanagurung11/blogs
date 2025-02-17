@@ -17,16 +17,23 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-
 import "./css/style.css";
+
+interface IBlogCardProps{
+  article :IArticle[], 
+  fetchArticles :()=>Promise<void>
+}
 
 // import required modules
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { IArticle } from "@/app/page";
 
-export default function BlogCard({ article, fetchArticles }) {
-  const handleDelete = async (id) => {
+// export default function BlogCard({ article, fetchArticles }:{article:IArticle[]; fetchArticles:()=>Promise<void>}) {
+
+  export default function BlogCard({ article, fetchArticles }:IBlogCardProps) {
+  const handleDelete = async (id :number) => {
     try {
       const response = await axios.delete(
         `https://blogs-platform-backend.onrender.com/articles/${id}`
@@ -45,7 +52,7 @@ export default function BlogCard({ article, fetchArticles }) {
     <div className="grid lg:grid-cols-2">
       {/* blog card */}
       <div className="py-12 space-y-12">
-        {article.map((card, index) => (
+        {article?.map((card:IArticle, index :number) => (
           <div key={index}>
             <Link
               href={`/blog/view/${card._id}`}
@@ -276,7 +283,7 @@ export default function BlogCard({ article, fetchArticles }) {
             </div>
             <p className="opacity-60 text-sm">
               A deep dive into emotional experiences and personal growth,
-              sharing valuable insights on life's most meaningful moments.
+              sharing valuable insights on life&apos;s most meaningful moments.
             </p>
           </div>
 

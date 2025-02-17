@@ -3,7 +3,6 @@ import {
   ChartNoAxesCombined,
   Flame,
   Laptop,
-  Link,
   MonitorPause,
   Plane,
   StickyNote,

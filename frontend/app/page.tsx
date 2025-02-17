@@ -6,10 +6,18 @@ import { Card } from "@/components/ui/card";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
+export interface IArticle{
+  _id:number;
+  title: string;
+  content :string;
+  author :string;
+  thumnail :string;
+}
+
 export default function Page() {
-  const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(false);
-  console.log(articles, "this is aticles");
+  const [articles, setArticles] = useState<IArticle[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+  // console.log(articles, "this is aticles");
 
   const fetchArticles = async () => {
     try {
@@ -17,7 +25,7 @@ export default function Page() {
       const response = await axios.get(
         "https://blogs-platform-backend.onrender.com/articles"
       );
-      console.log(response.data, "this is response");
+      // console.log(response.data, "this is response");
       setArticles(response.data.articles);
       setLoading(false);
     } catch (error) {
