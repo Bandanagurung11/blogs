@@ -133,9 +133,13 @@ app.delete("/users/:id", async (req, res) => {
 const articleSchema = new mongoose.Schema({
   author: { type: String, required: true },
   title: { type: String, required: true },
+  shortDescription: { type: String, required: true },
   content: { type: String, required: true },
   thumnail: { type: String },
-});
+  categories : {type: String, required:true},
+},
+{ timestamps: true }
+);
 
 const ArticleTable = mongoose.model("article", articleSchema);
 
@@ -188,22 +192,30 @@ app.get("/articles/:id", async (req, res) => {
 
 app.patch("/articles/:id", upload.single("thumnail"), async (req, res) => {
   try {
-
+    const articleExit = await ArticleTable.findById(req.params.id);
+    if(!articleExit){
+      return res.status(400).json({
+        message : "article not found"
+      })
+    }
     if(req.file){
       const cloudinaryResponse = await cloudinary.uploader.upload(req.file.path);
     console.log(cloudinaryResponse, "cloudinary response");
-    }
     const updatedArticle = await ArticleTable.findByIdAndUpdate(
       req.params.id,
       {...req.body, thumnail:cloudinaryResponse.secure_url},
       { new: true }
     );
-    if (!updatedArticle) {
-      return res.status(500).json({ message: "couldn't update the data" });
+    return res.status(200).json({
+      message: "article updates sucessfully",
+      updatedArticleArticle : updatedArticle
+    })
     }
-    return res
-      .status(200)
-      .json({ message: "updated succesfully", data: updatedArticle });
+    const updatedArticle = await Article.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    return res.status(200).json({
+      message: "article updated sucessfully",
+      article: updatedArticle,
+    });
   } catch (error) {
     console.log("something went wrong", error);
   }
