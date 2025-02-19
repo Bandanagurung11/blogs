@@ -17,42 +17,42 @@ export default function HeroSection() {
     {
       icon: <Laptop  style={{ fill: "blue"}} />,
       name: "Technology",
-      href: "/technology",
+      href: "/Technology",
     },
     {
       icon: <Plane style={{ fill: "#DF701A"}} />,
       name: "Travel",
-      href: "/travel",
+      href: "/Travel",
     },
     {
       icon: <Volleyball style={{ fill: "#00A657"}} />,
       name: "Sports",
-      href: "/sports",
+      href: "/Sports",
     },
     {
       icon: <Wallet style={{ fill: "#583FBC"}} />,
       name: "Business",
-      href: "/business",
+      href: "/Business",
     },
     {
       icon: <ChartNoAxesCombined style={{ fill: "#BA1D60"}} />,
       name: "Management",
-      href: "/management",
+      href: "/Management",
     },
     {
       icon: <Flame style={{ fill: "#E2411F"}} />,
       name: "Trends",
-      href: "/trends",
+      href: "/Trends",
     },
     {
       icon: <MonitorPause style={{ fill: "#4F4F4F"}} />,
       name: "Startups",
-      href: "/startups",
+      href: "/Startups",
     },
     {
       icon: <StickyNote style={{ fill: "#089DDD"}} />,
       name: "News",
-      href: "/news",
+      href: "/News",
     },
   ];
 
@@ -90,7 +90,7 @@ export default function HeroSection() {
               {/* <Link href={eachItems.href}> */}
               <button
                 // onClick={() => router.push(eachItems.href)} for a static route
-                onClick={() => router.push(`/categories/${eachItems.href.toLowerCase()}`)} // for dynamic route
+                onClick={() => router.push(`/categories/${eachItems.href}`)} // for dynamic route
                 className="h-8 w-44 flex items-center justify-center gap-1 py-6 rounded-2xl shadow-xl"
               >
                 <p> {eachItems.icon}</p>

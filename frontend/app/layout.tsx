@@ -25,7 +25,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="lg:w-11/12 mx-auto">
+          <div className="lg:w-11/12 mx-auto overflow-x-hidden-hidden">
           <Navbar/>
           {children}
           <Toaster

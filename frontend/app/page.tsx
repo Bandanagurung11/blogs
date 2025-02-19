@@ -2,7 +2,7 @@
 import BlogCard from "@/components/BlogCard";
 
 import HeroSection from "@/components/HeroSection";
-import { Card } from "@/components/ui/card";
+import RightFixed from "@/components/RightFixed";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
@@ -10,14 +10,18 @@ export interface IArticle{
   _id:number;
   title: string;
   content :string;
+  shortDescription :string;
+  categories:string;
   author :string;
   thumnail :string;
+  createdAt: string;  // Date stored as string in JSON
+  updatedAt: string;
 }
 
 export default function Page() {
   const [articles, setArticles] = useState<IArticle[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  // console.log(articles, "this is aticles");
+  console.log(articles, "this is aticles");
 
   const fetchArticles = async () => {
     try {
@@ -43,9 +47,7 @@ export default function Page() {
       <HeroSection />
 
       {loading ? (
-        <Card className="bg-gray-400 w-64 h-32">
-
-        </Card>
+        <p>Loading data....</p>
       ) : (
         <BlogCard article={articles} fetchArticles={fetchArticles} />
       )}

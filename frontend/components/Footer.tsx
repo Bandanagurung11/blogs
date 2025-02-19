@@ -82,6 +82,7 @@ export default function Footer() {
         <p className="text-sm font-bold">Pure inspiration, zero spam ✨</p>
       </div>
       <hr />
+      
       <div className="grid lg:grid-cols-7 gap-12 py-12 px-4">
         <div className="col-span-4 space-y-8 lg:space-y-24">
           <div className="space-y-4">
