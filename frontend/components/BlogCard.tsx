@@ -54,6 +54,7 @@ export default function BlogCard({ article, fetchArticles }: IBlogCardProps) {
                   }
                   height={100}
                   width={100}
+                  unoptimized={true}
                   alt="this is image"
                 />
                 <div className="space-y-4">

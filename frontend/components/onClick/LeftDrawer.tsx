@@ -143,9 +143,15 @@ export default function LeftDrawer() {
               <p className="cursor-pointer">Auto LoadNextPost</p>
             </div>
           )}
-          <p className="cursor-pointer">About</p>
+          <Link href="/about">
+          <p className="cursor-pointer pt-2">About</p>
+          </Link>
+
           <p className="cursor-pointer">Categories</p>
-          <p className="cursor-pointer">Contacts</p>
+
+          <Link href="/contact">
+          <p className="cursor-pointer pt-1">Contacts</p>
+          </Link>
         </div>
 
         <Link href="https://themeforest.net/item/revision-optimized-personal-blog-wordpress-theme/54935237?clickid=yVIx6YXLJxyKWyEQAX0DtyLGUkszlcxNqT8JzQ0&iradid=275988&irpid=1327917&iradtype=ONLINE_TRACKING_LINK&irmptype=mediapartner&mp_value1=">

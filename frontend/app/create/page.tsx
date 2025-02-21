@@ -6,6 +6,8 @@ import toast from "react-hot-toast";
 export default function Page() {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>(" ");
+  const [shortDescription, setShortDescription] = useState<string>(" ");
+  const [categories, setCategories] = useState<string>(" ");
   const [author, setAuthor] = useState<string>(" ");
   const [thumnail, setThumnai] = useState<File | null>(null);
   const [loading, setloading] = useState<boolean>(false);
@@ -20,6 +22,8 @@ export default function Page() {
     try {
       const formData = new FormData();
       formData.append("title", title);
+      formData.append("shortDescription", shortDescription);
+      formData.append("categories", categories);
       formData.append("content", content);
       formData.append("thumnail", thumnail);
       formData.append("author", author);
@@ -34,6 +38,8 @@ export default function Page() {
       setContent(" ");
       setThumnai(null);
       setTitle(" ");
+      setShortDescription("");
+      setCategories("");
       toast.success("post created successfluuy");
     } catch (error) {
       console.log("something went wrong", error);
@@ -53,26 +59,54 @@ export default function Page() {
           value={title}
           placeholder="title"
           className="border p-4"
-          onChange={(e:React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setTitle(e.target.value)
+          }
         />
         <input
           type="text"
           value={author}
-          placeholder="author"
+          placeholder="author name"
           className="border p-4"
-          onChange={(e:React.ChangeEvent<HTMLInputElement>) => setAuthor(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setAuthor(e.target.value)
+          }
+        />
+
+<input
+          type="text"
+          value={categories}
+          placeholder="categoriesaccds"
+          className="border p-4"
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setCategories(e.target.value)
+          }
         />
         <textarea
-          placeholder="content"
+          placeholder="contentacd"
           value={content}
           className="border p-4"
-          onChange={(e :React.ChangeEvent<HTMLTextAreaElement>) => setContent(e.target.value)}
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+            setContent(e.target.value)
+          }
         />
+
+        <textarea
+          placeholder="shortdescrition"
+          value={shortDescription}
+          className="border p-4"
+          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+            setShortDescription(e.target.value)
+          }
+        />
+
         <input
           type="file"
           placeholder="thumnail"
           className="border p-4"
-          onChange={(e:React.ChangeEvent<HTMLInputElement>) => setThumnai(e.target.files?.[0]|| null)}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+            setThumnai(e.target.files?.[0] || null)
+          }
         />
         <div className="flex justify-center">
           <button type="submit" className="border p-4 rounded-md">

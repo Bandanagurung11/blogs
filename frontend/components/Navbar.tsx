@@ -117,7 +117,7 @@ export default function Navbar() {
     }
   };
 
-  const [search, setSearch] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
 
   // const [theme, setTheme] = useState("light");
@@ -201,24 +201,27 @@ export default function Navbar() {
             </Card>
           )}
         </div>
-
+        <Link href="/about">
         <div className="hover:bg-[#F2F2F6] dark:hover:bg-[#3D3D3D] p-2  cursor-pointer rounded-md">
           <p>About</p>
         </div>
+        </Link>
+        <Link href="/contact">
         <div className="hover:bg-[#F2F2F6] dark:hover:bg-[#3D3D3D]  p-2  cursor-pointer rounded-md">
           <p>Contact</p>
         </div>
+        </Link>
       </div>
 
       <div className="flex gap-6 items-center">
         <div className="flex items-center">
           <div className="relative">
           <div className="relative hover:bg-[#F2F2F6] dark:bg-[#3D3D3D]  p-2 rounded-full">
-            <Search className="h-5 w-5 cursor-pointer" onClick={()=>setSearch(!search)} />
+            <Search className="h-5 w-5 cursor-pointer" onClick={()=>setSearchOpen(!searchOpen)} />
           </div>
           {
-            search &&
-            <SearchFunctionality/>
+            searchOpen &&
+            <SearchFunctionality setSearchOpen={setSearchOpen} searchOpen={searchOpen}/>
           }
           </div>
           <Tally1 className=" hidden lg:block opacity-40" />

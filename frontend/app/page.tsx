@@ -2,19 +2,19 @@
 import BlogCard from "@/components/BlogCard";
 
 import HeroSection from "@/components/HeroSection";
-import RightFixed from "@/components/RightFixed";
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-export interface IArticle{
-  _id:number;
+export interface IArticle {
+  _id: number;
   title: string;
-  content :string;
-  shortDescription :string;
-  categories:string;
-  author :string;
-  thumnail :string;
-  createdAt: string;  // Date stored as string in JSON
+  content: string;
+  shortDescription: string;
+  categories: string;
+  author: string;
+  thumnail: string;
+  createdAt: string; // Date stored as string in JSON
   updatedAt: string;
 }
 
