@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { ChevronRight } from "lucide-react";
 
 // Mock data for testing (Replace this with API call if needed)
 const mockData = [
@@ -40,17 +41,32 @@ export default function Page() {
 
   return (
     <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-4">Search Results for: &quot;{query}&quot;</h1>
-
-      {/* Search Input */}
-      <div className="flex gap-2 mb-4">
-        <Input
-          placeholder="Search again..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-80"
-        />
-        <Button onClick={() => handleSearch(searchQuery)}>Search</Button>
+      <div className="space-y-12">
+        <div className="flex gap-1 items-center opacity-60 text-sm ">
+          <Link href="/">
+            <p>Home</p>
+          </Link>
+          <ChevronRight className="h-4 w-4" />
+          <p>You search for a &quot;{query}&quot;</p>
+        </div>
+        <p className="text-5xl font-bold mb-4">
+          {" "}
+          Search Results &quot;{query}&quot;
+        </p>
+        <div className="relative">
+          <Input
+            placeholder="Search again..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="h-14 w-[600px] rounded-xl"
+          />
+          <Button
+            className="bg-[#7571ED] hover:bg-[#7571ED] hover:shadow-2xl absolute left-[515px] top-3"
+            onClick={() => handleSearch(searchQuery)}
+          >
+            Search
+          </Button>
+        </div>
       </div>
 
       {/* Search Results */}
@@ -64,8 +80,8 @@ export default function Page() {
             </Link>
           ))
         ) : (
-          <p className="col-span-full text-center text-gray-500">
-            No results found for "{query}"
+          <p className="col-span-full text-sm text-gray-500">
+           It seems we cannot find what you are looking for. Please check the spelling or rephrase.
           </p>
         )}
       </div>
