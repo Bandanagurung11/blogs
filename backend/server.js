@@ -129,7 +129,7 @@ app.delete("/users/:id", async (req, res) => {
   }
 });
 
-//for articles
+//for article
 const articleSchema = new mongoose.Schema({
   author: { type: String, required: true },
   title: { type: String, required: true },
@@ -231,3 +231,40 @@ app.delete("/articles/:id", async (req, res) => {
     console.log("something went wrong", error);
   }
 });
+
+
+// This is for a search operation
+// Search route
+app.get("/search", async (req, res) => {
+  const query = req.query.query;
+  const page = parseInt(req.query.page) || 1;
+  const limit = 5;
+
+  if (!query) return res.json({ results: [], total: 0 });
+
+  try {
+    const results = await ArticleTable.find({
+      $or: [
+        { title: { $regex: query, $options: "i" } },
+        { content: { $regex: query, $options: "i" } },
+        { categories: { $regex: query, $options: "i" } },
+      ],
+    })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    const total = await ArticleTable.countDocuments({
+      $or: [
+        { title: { $regex: query, $options: "i" } },
+        { content: { $regex: query, $options: "i" } },
+        { categories: { $regex: query, $options: "i" } },
+      ],
+    });
+
+    res.json({ results, total, page, pages: Math.ceil(total / limit) });
+  } catch (error) {
+    console.log("Search error:", error);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
