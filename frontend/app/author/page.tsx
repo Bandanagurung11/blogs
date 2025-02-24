@@ -96,7 +96,7 @@ export default function Page() {
       <hr />
 
       {!loading ? (
-        <div className="grid lg:grid-cols-3 gap-8 py-16">
+        <div className="px-6 grid lg:grid-cols-3 gap-6 py-16">
           {article?.map((card: IArticle, index: number) => (
             <div key={index}>
               <div className="space-y-4">
@@ -107,17 +107,24 @@ export default function Page() {
                     height={100}
                     width={100}
                     alt="this is image"
+                    unoptimized={true}
                   />
                 </Link>
                 <div className="space-y-6">
                   <div className="space-y-2 mb-8">
-                    <p>{card.author} </p>
+                    <p>
+                      <Link href="/author">
+                      <span className="text-blue-600 font-bold">{card.author} </span>
+                      </Link>
+                      <span className="opacity-60">
+                        on {new Date(card.updatedAt).toDateString()}
+                      </span> </p>
                     <Link href={`/blog/view/${card._id}`}>
-                    <p className="text-xl font-bold opacity-80">
+                    <p className="text-xl mt-1 font-bold opacity-80">
                       {card.title}{" "}
                     </p>
                     </Link>
-                    <p className="opacity-60">{card.content} </p>
+                    <p className="opacity-60">{card.shortDescription}... </p>
                   </div>
                 </div>
               </div>

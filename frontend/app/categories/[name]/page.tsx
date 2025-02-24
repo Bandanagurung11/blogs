@@ -6,14 +6,13 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { IArticle } from "@/app/page";
 import axios from "axios";
-import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 
 export default function Page() {
   const { name } = useParams(); // Get the dynamic parameter from the URL
-  console.log(name, "this is name");
+  // console.log(name, "this is name")
 
-  const imageMap = {
+  const imageMap: { [key: string]: string } = {
     Technology:
       "https://revision.codesupply.co/revision/wp-content/uploads/sites/2/2024/09/Technology@2x.webp",
     Travel:
@@ -30,6 +29,8 @@ export default function Page() {
       "https://revision.codesupply.co/revision/wp-content/uploads/sites/2/2024/10/demo-category-small-0007@2x.webp",
     News: "https://revision.codesupply.co/revision/wp-content/uploads/sites/2/2024/10/demo-category-small-0008@2x.webp",
   };
+
+  
 
   const [article, setArticles] = useState<IArticle[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -68,6 +69,9 @@ export default function Page() {
     fetchArticles();
   }, []);
 
+  if (typeof name === 'string') {
+    const imageUrl = imageMap[name] || 'https://revision.codesupply.co/revision/wp-content/uploads/sites/2/2024/09/default@2x.webp';
+
   return (
     <div className="pl-5">
       <div className="space-y-4 pb-12">
@@ -78,16 +82,18 @@ export default function Page() {
           <ChevronRight className="h-4 w-4 opacity-60" />
           <p className="opacity-60">{name}</p>
         </div>
+        
         <Image
           className="rounded-xl"
           height={100}
           width={100}
-          src={
-            imageMap[name] ||
+          src={imageUrl ||
             "https://revision.codesupply.co/revision/wp-content/uploads/sites/2/2024/09/default@2x.webp"
           }
           alt="eachcatgory"
+          unoptimized={true}
         ></Image>
+    
         <p className="font-bold text-2xl lg:text-4xl">{name}</p>
         <p className="opacity-60 lg:w-4/12">
           Stay ahead of the curve with the newest developments in technology,
@@ -110,17 +116,28 @@ export default function Page() {
                     height={100}
                     width={100}
                     alt="this is image"
+                    unoptimized={true}
                   />
                 </Link>
                 <div className="space-y-6">
                   <div className="space-y-2 mb-8">
-                    <p>{card.author} </p>
+                    
+                    <p>
+                    <Link href="/author">
+                      <span className="text-blue-600 font-bold text-sm">{card.author} </span>
+                      </Link>
+                      <span className="opacity-60">
+                         on {new Date(card.updatedAt).toDateString()}
+                      </span>{" "}
+                       </p>
+                       
+                       
                     <Link href={`/blog/view/${card._id}`}>
-                    <p className="text-xl font-bold opacity-80">
+                    <p className="text-xl mt-1 font-bold opacity-80">
                       {card.title}{" "}
                     </p>
                     </Link>
-                    <p className="opacity-60">{card.content} </p>
+                    <p className="opacity-60">{card.shortDescription} </p>
                   </div>
                 </div>
               </div>
@@ -139,4 +156,5 @@ export default function Page() {
       )}
     </div>
   );
+}
 }

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import { Card } from "../ui/card";
 import { X } from "lucide-react";
@@ -52,11 +52,12 @@ export default function SearchFunctionality({
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState(""); // Store input value
   // Function to handle search
+
   const handleSearch = () => {
     if (searchQuery.trim()) {
       // router.push("/search")
       // router.push(`/search?query=${searchQuery}`); // Redirect to search results page
-      router.push(`/search?query=${encodeURIComponent(searchQuery)}`); 
+      router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
       setSearchOpen(false); // Close search modal
     }
   };
@@ -70,7 +71,7 @@ export default function SearchFunctionality({
 
   return (
     <div>
-      <Card className="bg-[#F8F8FF] space-y-4 w-96 p-6 absolute top-16 -left-44 mt-2 z-10">
+      <Card className="bg-[#F8F8FF] space-y-4 w-80 lg:w-96 p-6 absolute top-16 -left-64 lg:-left-44 mt-2 z-10">
         <div className="flex justify-between items-center">
           <p className="font-bold text-lg">What are You Looking For?</p>
           <X
@@ -83,17 +84,17 @@ export default function SearchFunctionality({
             placeholder="Start Typing"
             className="h-12"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={(e:React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
             onKeyDown={handleKeyDown} // Listen for Enter key press
           />
           <Button
-            className="bg-[#7B77EB] hover:bg-[#7B77EB] font-bold absolute right-1 top-2"
+            className="bg-[#7B77EB] hover:bg-[#7B77EB] hover:shadow-2xl font-bold absolute right-1 top-2"
             onClick={handleSearch}
           >
             Search
           </Button>
         </div>
-        <div className="grid grid-cols-4 gap-4 place-items-center">
+        <div className="grid  grid-cols-3 lg:grid-cols-4 gap-4 place-items-center">
           {Categories.map((category, index) => (
             <Link
               key={index}
