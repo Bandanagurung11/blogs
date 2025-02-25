@@ -7,7 +7,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 
 export interface IArticle {
-  _id: number;
+  _id: string;
   title: string;
   content: string;
   shortDescription: string;

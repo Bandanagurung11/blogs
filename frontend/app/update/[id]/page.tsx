@@ -1,103 +1,196 @@
-"use client"
-import { IArticle } from '@/app/page';
-import { Card } from '@/components/ui/card';
-import axios from 'axios';
-import { useParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+"use client";
+import { IArticle } from "@/app/page";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import axios from "axios";
+import { useParams } from "next/navigation";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
+import ReactQuill from "react-quill-new"; // Updated import
+import "react-quill-new/dist/quill.snow.css"; // Updated CSS import
+import { Quill } from "react-quill-new";
+
 
 export default function Page() {
-    const {id}= useParams();
-    // console.log(id)
-    const [article, setArticle] = useState<IArticle | null>(null);
+  const { id } = useParams();
+  const [article, setArticle] = useState<IArticle | null>(null);
+console.log(article);
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>(" ");
+  const [shortDescription, setShortDescription] = useState<string>(" ");
+  const [categories, setCategories] = useState<string>(" ");
+  const [author, setAuthor] = useState<string>(" ");
+  const [thumnail, setThumnail] = useState<File | null>(null); 
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const quillRef = useRef<ReactQuill>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const resetFileInput = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+      setThumnail(null); // Fixed typo
+    }
+  };
+
   useEffect(() => {
     const fetchSingleArticles = async () => {
       try {
         const response = await axios.get(
           `https://blogs-platform-backend.onrender.com/articles/${id}`
         );
-        console.log(response.data.articles);
-        setArticle(response.data.articles);
+        const fetchedArticle = response.data.articles;
+        setArticle(fetchedArticle);
+        setTitle(fetchedArticle.title);
+        setContent(fetchedArticle.content);
+        setShortDescription(fetchedArticle.shortDescription);
+        setCategories(fetchedArticle.categories);
+        setAuthor(fetchedArticle.author);
       } catch (error) {
         console.log("something went wrong", error);
+        toast.error("couldn't find the article");
       }
     };
     fetchSingleArticles();
   }, [id]);
 
-  const handleUpdate=()=>{
+  const handleUpdate = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!thumnail) {
+      alert("Please select a thumbnail");
+      return;
+    }
+    setLoading(true);
+    try {
+      // const plainTextContent = quillRef.current?.getEditor().getText();
+      const plainTextContent = quillRef.current?.getEditor().getText() || content;
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("shortDescription", shortDescription);
+      formData.append("categories", categories);
+      // formData.append("content", plainTextContent || content);
+      formData.append("content", plainTextContent);
+      console.log("Plain text content:", plainTextContent); // Debug
+      // formData.append("content", content);
+      formData.append("thumnail", thumnail);
+      formData.append("author", author);
 
-  }
+      const response = await axios.patch(
+        `https://blogs-platform-backend.onrender.com/articles/${id}`, 
+        formData
+      );
+      console.log(response);
+      setLoading(false);
+      setAuthor("");
+      setContent(" ");
+      resetFileInput();
+      setTitle("");
+      setShortDescription("");
+      setCategories("");
+      toast.success("Article updated successfully");
+    } catch (error) {
+      console.log("Something went wrong", error);
+      toast.error("Something went wrong while updating the article");
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className='py-12 text-center'>
-        <p className='text-4xl'>Update the article here</p>
-        <Card>
-            <form
-                    onSubmit={handleUpdate}
-                    action=""
-                    className="flex flex-col gap-12 p-24 border"
-                  >
-                    <input
-                      type="text"
-                      value={article?.title}
-                      placeholder="title"
-                      className="border p-4"
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setTitle(e.target.value)
-                      }
-                    />
-                    <input
-                      type="text"
-                      value={article?.author}
-                      placeholder="author name"
-                      className="border p-4"
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setAuthor(e.target.value)
-                      }
-                    />
-            
-            <input
-                      type="text"
-                      value={article?.categories}
-                      placeholder="categoriesaccds"
-                      className="border p-4"
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setCategories(e.target.value)
-                      }
-                    />
-                    <textarea
-                      placeholder="contentacd"
-                      value={article?.content}
-                      className="border p-4"
-                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                        setContent(e.target.value)
-                      }
-                    />
-            
-                    <textarea
-                      placeholder="shortdescrition"
-                      value={article?.shortDescription}
-                      className="border p-4"
-                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                        setShortDescription(e.target.value)
-                      }
-                    />
-            
-                    <input
-                      type="file"
-                      placeholder="thumnail"
-                      className="border p-4"
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setThumnai(e.target.files?.[0] || null)
-                      }
-                    />
-                    <div className="flex justify-center">
-                      <button type="submit" className="border p-4 rounded-md">
-                        {/* {loading ? "creating" : "create"} */}
-                      </button>
-                    </div>
-                  </form>
-            
-        </Card>
+    <div className="py-12 space-y-8">
+      <p className="text-2xl text-center lg:text-4xl">
+        Update The Article Here
+      </p>
+      <Card className="lg:w-10/12 mx-auto rounded-xl">
+        <form
+          onSubmit={handleUpdate}
+          className="flex flex-col gap-8 lg:p-24 p-6"
+        >
+          <div className="space-y-1">
+            <p className="font-bold">Author</p>
+            <Input
+              type="text"
+              value={author}
+              placeholder="Your full name"
+              className="border p-6 lg:w-96"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setAuthor(e.target.value)
+              }
+            />
+          </div>
+
+          <div className="space-y-1">
+            <p className="font-bold">Title</p>
+            <Input
+              type="text"
+              value={title}
+              placeholder="Your title for the article"
+              className="border p-6 lg:w-96"
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setTitle(e.target.value)
+              }
+            />
+          </div>
+
+          <div className="space-y-1">
+            <p className="font-bold">Category</p>
+            <Input
+              type="text"
+              value={categories}
+              placeholder="categories"
+              className="border p-6 w-96 "
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setCategories(e.target.value)
+              }
+            />
+          </div>
+
+          <div className="space-y-1">
+            <p className="font-bold">Short Information</p>
+            <textarea
+              placeholder="Provide short Information of your Article"
+              value={shortDescription}
+              className="border p-4 w-full rounded-lg"
+              // onChange={setShortDescription}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setShortDescription(e.target.value)
+              }
+            />
+          </div>
+
+          <div>
+            <p className="font-bold">Content</p>
+            <ReactQuill
+              value={content}
+              placeholder="write your article here.."
+              className="border w-full"
+              ref={quillRef}
+              onChange={setContent}
+              // onChange={(value) => setContent(stripHtml(value))}
+              // onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              //   setContent(e.target.value)
+              // }
+            />
+          </div>
+
+         <div className="space-y-1">
+          <p className="font-bold">Thumbnail</p>
+         <input
+            type="file"
+            className="border p-4 rounded-lg"
+            ref={fileInputRef}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setThumnail(e.target.files?.[0] || null) // Fixed typo
+            }
+          />
+         </div>
+
+          <div className="flex justify-center">
+            <Button type="submit" className="border p-5 font-bold rounded-md">
+              {loading ? "Updating..." : "Update"}
+            </Button>
+          </div>
+        </form>
+      </Card>
     </div>
-  )
+  );
 }

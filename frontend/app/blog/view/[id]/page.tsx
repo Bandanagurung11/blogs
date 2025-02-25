@@ -8,24 +8,42 @@ import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 
 export default function Page() {
   const { id } = useParams();
   const [article, setArticle] = useState<IArticle | null>(null);
+
+  const fetchSingleArticles = async () => {
+    try {
+      const response = await axios.get(
+        `https://blogs-platform-backend.onrender.com/articles/${id}`
+      );
+      console.log(response.data.articles);
+      setArticle(response.data.articles);
+    } catch (error) {
+      console.log("something went wrong", error);
+      toast.error("something went wrong while fetching data");
+    }
+  };
+
   useEffect(() => {
-    const fetchSingleArticles = async () => {
-      try {
-        const response = await axios.get(
-          `https://blogs-platform-backend.onrender.com/articles/${id}`
-        );
-        console.log(response.data.articles);
-        setArticle(response.data.articles);
-      } catch (error) {
-        console.log("something went wrong", error);
-      }
-    };
     fetchSingleArticles();
   }, [id]);
+
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(
+        `https://blogs-platform-backend.onrender.com/articles/${id}`
+      );
+      console.log(response);
+      toast.success("deleted succesfully");
+      fetchSingleArticles();
+    } catch (error) {
+      console.log("something went wrong", error);
+      toast.error("can not delete a post");
+    }
+  };
 
   return (
     <div>
@@ -57,18 +75,18 @@ export default function Page() {
             {article?.shortDescription}
           </p>
         </div>
-          <Image
-            className="h-full w-full rounded-xl"
-            src={article?.thumnail || ""}
-            alt="thumbnail"
-            height={100}
-            width={100}
-            unoptimized={true}
-          />
+        <Image
+          className="h-full w-full rounded-xl"
+          src={article?.thumnail || ""}
+          alt="thumbnail"
+          height={100}
+          width={100}
+          unoptimized={true}
+        />
 
         <div className=" p-4">
           <div>
-            {article?.content.split("\r\n\r\n").map(
+            {article?.content.split("\n\n").map(
               (
                 paragraph,
                 index //split turns string into array with spliting paragraph
@@ -79,11 +97,22 @@ export default function Page() {
               )
             )}
           </div>
+
+          <div className="flex justify-between items-center">
+            <Link href={`/update/${id}`}>
+              <Button className="bg-[#8C88F6] hover:bg-[#8C88F6] mt-12 hover:shadow-2xl font-bold">
+                Make Changes to the Article
+              </Button>
+            </Link>
+            <p
+              className="p-2 cursor-pointer bg-red-500 rounded-md text-white"
+              onClick={() => handleDelete()}
+            >
+              Delete this article
+            </p>
+          </div>
         </div>
       </div>
-      <Link href={`/update/${id}`}>
-      <Button className="bg-[#8C88F6] hover:bg-[#8C88F6] hover:shadow-2xl font-bold">Make Changes to the Article</Button>
-      </Link>
     </div>
   );
 }

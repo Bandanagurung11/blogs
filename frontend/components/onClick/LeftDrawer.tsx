@@ -10,7 +10,7 @@ import { useTheme } from "next-themes";
 export default function LeftDrawer() {
   const { setTheme } = useTheme();
    // for a drawer
-   const [isOpen, setIsOpen] = useState(false);
+   const [isOpen, setIsOpen] = useState<boolean>(false);
    const toggleDrawer = () => {
      setIsOpen((prevState) => !prevState);
    };
@@ -154,9 +154,9 @@ export default function LeftDrawer() {
           </Link>
         </div>
 
-        <Link href="https://themeforest.net/item/revision-optimized-personal-blog-wordpress-theme/54935237?clickid=yVIx6YXLJxyKWyEQAX0DtyLGUkszlcxNqT8JzQ0&iradid=275988&irpid=1327917&iradtype=ONLINE_TRACKING_LINK&irmptype=mediapartner&mp_value1=">
+        <Link href="/create">
           <Button className="bg-[#7C79EB] hover:bg-[#7C79EB] cursor-pointer hover:shadow-2xl">
-            Buy Now
+            Create
           </Button>
         </Link>
 

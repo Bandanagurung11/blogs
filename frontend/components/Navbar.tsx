@@ -119,10 +119,6 @@ export default function Navbar() {
 
   const [searchOpen, setSearchOpen] = useState(false);
 
-
-  // const [theme, setTheme] = useState("light");
-
-  // console.log(menuOpen);
   return (
     <div className="flex justify-between items-center p-6">
 
@@ -237,12 +233,12 @@ export default function Navbar() {
           </div>
         </div>
         <Link
-          href="https://themeforest.net/item/revision-optimized-personal-blog-wordpress-theme/54935237?clickid=UqGSM6XMOxyKTh4V17VC8UFfUkszkKWdqT8J2A0&iradid=275988&irpid=1327917&iradtype=ONLINE_TRACKING_LINK&irmptype=mediapartner&mp_value1="
+          href="/create"
           target="_blank"
           rel="noopener noreferrer"
         >
-          <Button className="bg-[#7B78EC] hidden lg:block shadow-xl font-bold hover:bg-[#6d68ef] hover:shadow-2xl">
-            Buy Now
+          <Button className="bg-[#7B78EC] hidden lg:block font-bold hover:bg-[#6d68ef] shadow hover:shadow-2xl">
+            Create
           </Button>
         </Link>
       </div>

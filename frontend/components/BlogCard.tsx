@@ -18,19 +18,7 @@ import RightFixed from "./RightFixed";
 // export default function BlogCard({ article, fetchArticles }:{article:IArticle[]; fetchArticles:()=>Promise<void>}) {
 
 export default function BlogCard({ article, fetchArticles }: IBlogCardProps) {
-  const handleDelete = async (id: number) => {
-    try {
-      const response = await axios.delete(
-        `https://blogs-platform-backend.onrender.com/articles/${id}`
-      );
-      console.log(response);
-      toast.success("deleted succesfully");
-      fetchArticles();
-    } catch (error) {
-      console.log("something went wrong", error);
-      toast.error("can not delete a post");
-    }
-  };
+  
   // console.log(article, "this is child section article");
 
   return (
@@ -81,12 +69,7 @@ export default function BlogCard({ article, fetchArticles }: IBlogCardProps) {
               </div>
             </div>
             <hr className="my-6 border-t border-gray-300 w-full" />
-            {/* <p
-              className="p-2 cursor-pointer bg-red-500 rounded-md text-white"
-              onClick={() => handleDelete(card._id)}
-            >
-              delete
-            </p> */}
+            
           </div>
         ))}
       </div>
