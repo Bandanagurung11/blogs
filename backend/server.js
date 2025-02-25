@@ -218,6 +218,7 @@ app.patch("/articles/:id", upload.single("thumnail"), async (req, res) => {
     });
   } catch (error) {
     console.log("something went wrong", error);
+    res.json({error:error});
   }
 });
 
@@ -238,7 +239,7 @@ app.delete("/articles/:id", async (req, res) => {
 app.get("/search", async (req, res) => {
   const query = req.query.query;
   const page = parseInt(req.query.page) || 1;
-  const limit = 5;
+  const limit = 10;
 
   if (!query) return res.json({ results: [], total: 0 });
 
