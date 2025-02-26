@@ -58,7 +58,7 @@ export default function HeroSection() {
 
   const router = useRouter();
   return (
-    <div className="py-24 space-y-12">
+    <div className=" py-12 lg:py-24 space-y-12">
       <div className="lg:w-9/12 mx-auto text-center space-y-4 pb-10">
         <p className=" text-2xl lg:text-5xl  text-[#29294B] font-bold leading-tight dark:text-white">
           Heartfelt <span className="text-[#7774E7]">Reflections</span>: Stories
