@@ -17,20 +17,17 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "./css/style.css";
 import { Navigation, Pagination, Mousewheel, Keyboard } from "swiper/modules";
-
 import { Swiper, SwiperSlide } from "swiper/react";
 import Image from "next/image";
 import Link from "next/link";
-import { IBlogCardProps } from "./BlogCard";
 
-export default function RightFixed({ article, fetchArticles }: IBlogCardProps) {
-  console.log(fetchArticles);
+export default function RightFixed() {
   return (
     <div className="space-y-6">
       <Card className="p-12 space-y-4 lg:w-96">
         <p>About</p>
         <div className="flex gap-2 items-center">
-          <Link href="author/">
+          <Link href="/author">
             <div className="h-12 w-12 rounded-full flex items-center justify-center overflow-hidden">
               <Image
                 className="h-12 w-12 object-cover"
@@ -82,7 +79,6 @@ export default function RightFixed({ article, fetchArticles }: IBlogCardProps) {
       </Card>
 
       {/* second card */}
-      {/* <p className="opacity-60 pl-4">Featured Posts</p>  */}
       <Swiper
         cssMode={true}
         navigation={true}
@@ -130,10 +126,10 @@ export default function RightFixed({ article, fetchArticles }: IBlogCardProps) {
           <div className="relative w-full h-full">
             <Image
               className="h-full w-full rounded-xl"
-              objectFit="cover" // Ensures the image covers the full area
+              objectFit="cover"
               src={business}
               alt="lancksdcs"
-              unoptimized={true} 
+              unoptimized={true}
             ></Image>
             <div className="absolute top-0 bg-black/50 text-white pt-2 px-3 rounded-t-lg text-lg space-y-32">
               <button className=" px-2 rounded-md bg-[#B2A6A0]">
@@ -159,7 +155,7 @@ export default function RightFixed({ article, fetchArticles }: IBlogCardProps) {
               objectFit="cover" // Ensures the image covers the full area
               src={news}
               alt="lancksdcs"
-              unoptimized={true} 
+              unoptimized={true}
             ></Image>
 
             <div className="absolute top-0 bg-black/50 text-white pt-2 px-3 rounded-t-lg text-lg space-y-32">

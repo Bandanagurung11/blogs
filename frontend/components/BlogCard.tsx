@@ -2,25 +2,12 @@ import Image from "next/image";
 import React from "react";
 import { Button } from "./ui/button";
 import Link from "next/link";
-
-export interface IBlogCardProps {
-  article: IArticle[];
-  fetchArticles: () => Promise<void>;
-}
-
-// import required modules
-
-import axios from "axios";
-import toast from "react-hot-toast";
 import { IArticle } from "@/app/page";
 import RightFixed from "./RightFixed";
 
 // export default function BlogCard({ article, fetchArticles }:{article:IArticle[]; fetchArticles:()=>Promise<void>}) {
 
-export default function BlogCard({ article, fetchArticles }: IBlogCardProps) {
-  
-  // console.log(article, "this is child section article");
-
+export default function BlogCard({ article}: {article : IArticle[]}) {
   return (
     <div className="lg:flex  gap-8">
       <div className="py-12 space-y-12 lg:w-8/12">
@@ -69,14 +56,13 @@ export default function BlogCard({ article, fetchArticles }: IBlogCardProps) {
               </div>
             </div>
             <hr className="my-6 border-t border-gray-300 w-full" />
-            
           </div>
         ))}
       </div>
 
       <div className="relative lg:w-3/12 h-full">
         <div className="sticky top-20">
-          <RightFixed article={article} fetchArticles={fetchArticles} />
+          <RightFixed />
         </div>
       </div>
     </div>

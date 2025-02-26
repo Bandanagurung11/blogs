@@ -147,8 +147,6 @@ export default function LeftDrawer() {
           <p className="cursor-pointer pt-2">About</p>
           </Link>
 
-          <p className="cursor-pointer">Categories</p>
-
           <Link href="/contact">
           <p className="cursor-pointer pt-1">Contacts</p>
           </Link>

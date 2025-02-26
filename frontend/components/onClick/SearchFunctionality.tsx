@@ -50,15 +50,13 @@ export default function SearchFunctionality({
   ];
 
   const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState(""); // Store input value
-  // Function to handle search
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
       // router.push("/search")
-      // router.push(`/search?query=${searchQuery}`); // Redirect to search results page
-      router.push(`/search?query=${encodeURIComponent(searchQuery)}`);
-      setSearchOpen(false); // Close search modal
+      router.push(`/search?query=${encodeURIComponent(searchQuery)}`); // Redirect to search results page
+      setSearchOpen(false);
     }
   };
 
@@ -84,7 +82,9 @@ export default function SearchFunctionality({
             placeholder="Start Typing"
             className="h-12"
             value={searchQuery}
-            onChange={(e:React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setSearchQuery(e.target.value)
+            }
             onKeyDown={handleKeyDown} // Listen for Enter key press
           />
           <Button
@@ -95,7 +95,7 @@ export default function SearchFunctionality({
           </Button>
         </div>
         <div className="grid  grid-cols-3 lg:grid-cols-4 gap-4 place-items-center">
-          {Categories.map((category, index) => (
+          {Categories.map((category, index:number) => (
             <Link
               key={index}
               href={category.href}

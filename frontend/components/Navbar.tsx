@@ -5,21 +5,13 @@ import Image from "next/image";
 import {
   ChevronDown,
   ChevronUp,
-  Facebook,
-  Instagram,
-  Linkedin,
-  Menu,
   Moon,
   Search,
   Sun,
   Tally1,
-  X,
 } from "lucide-react";
 import { Button } from "./ui/button";
 import { useTheme } from "next-themes";
-
-
-//import styles 👇
 import "react-modern-drawer/dist/index.css";
 
 import { Card } from "@/components/ui/card";
@@ -234,7 +226,6 @@ export default function Navbar() {
         </div>
         <Link
           href="/create"
-          target="_blank"
           rel="noopener noreferrer"
         >
           <Button className="bg-[#7B78EC] hidden lg:block font-bold hover:bg-[#6d68ef] shadow hover:shadow-2xl">

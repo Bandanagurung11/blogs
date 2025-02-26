@@ -11,13 +11,9 @@ import React, { useEffect, useState } from "react";
 import { IArticle } from "../page";
 import axios from "axios";
 import Link from "next/link";
-
-
-
 export default function Page() {
     const [article, setArticles] = useState<IArticle[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
-  // console.log(articles, "this is aticles");
 
   const fetchArticles = async () => {
     try {
@@ -25,7 +21,6 @@ export default function Page() {
       const response = await axios.get(
         "https://blogs-platform-backend.onrender.com/articles"
       );
-      // console.log(response.data, "this is response");
       setArticles(response.data.articles);
       setLoading(false);
     } catch (error) {
@@ -128,13 +123,6 @@ export default function Page() {
                   </div>
                 </div>
               </div>
-
-              {/* <p
-                className="p-2 cursor-pointer bg-red-500 rounded-md text-white"
-                onClick={() => handleDelete(card._id)}
-              >
-                delete
-              </p> */}
             </div>
           ))}
         </div>

@@ -87,7 +87,7 @@ export default function Page() {
       </div>
 
       <div className="grid lg:grid-cols-3 gap-6">
-        {card.map((eachItems, index) => (
+        {card.map((eachItems, index:number) => (
           <Card key={index} className="py-12 px-6 space-y-6 shadow-xl">
             {eachItems.icon}
             <div className="space-y-2">

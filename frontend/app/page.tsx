@@ -29,7 +29,7 @@ export default function Page() {
       const response = await axios.get(
         "https://blogs-platform-backend.onrender.com/articles"
       );
-      // console.log(response.data, "this is response");
+      
       setArticles(response.data.articles);
       setLoading(false);
     } catch (error) {
@@ -49,7 +49,7 @@ export default function Page() {
       {loading ? (
         <p>Loading data....</p>
       ) : (
-        <BlogCard article={articles} fetchArticles={fetchArticles} />
+        <BlogCard article={articles} />
       )}
     </div>
   );

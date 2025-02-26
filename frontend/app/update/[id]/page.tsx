@@ -9,27 +9,25 @@ import React, { FormEvent, useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import ReactQuill from "react-quill-new"; // Updated import
 import "react-quill-new/dist/quill.snow.css"; // Updated CSS import
-import { Quill } from "react-quill-new";
-
 
 export default function Page() {
   const { id } = useParams();
+ 
   const [article, setArticle] = useState<IArticle | null>(null);
-console.log(article);
+  console.log(article);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>(" ");
   const [shortDescription, setShortDescription] = useState<string>(" ");
   const [categories, setCategories] = useState<string>(" ");
   const [author, setAuthor] = useState<string>(" ");
-  const [thumnail, setThumnail] = useState<File | null>(null); 
+  const [thumnail, setThumnail] = useState<File | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const quillRef = useRef<ReactQuill>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const resetFileInput = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
-      setThumnail(null); // Fixed typo
+      setThumnail(null);
     }
   };
 
@@ -40,6 +38,7 @@ console.log(article);
           `https://blogs-platform-backend.onrender.com/articles/${id}`
         );
         const fetchedArticle = response.data.articles;
+        console.log(response.data.articles)
         setArticle(fetchedArticle);
         setTitle(fetchedArticle.title);
         setContent(fetchedArticle.content);
@@ -62,21 +61,18 @@ console.log(article);
     }
     setLoading(true);
     try {
-      // const plainTextContent = quillRef.current?.getEditor().getText();
-      const plainTextContent = quillRef.current?.getEditor().getText() || content;
       const formData = new FormData();
       formData.append("title", title);
       formData.append("shortDescription", shortDescription);
       formData.append("categories", categories);
-      // formData.append("content", plainTextContent || content);
-      formData.append("content", plainTextContent);
-      console.log("Plain text content:", plainTextContent); // Debug
-      // formData.append("content", content);
+      formData.append("content", content);
       formData.append("thumnail", thumnail);
+      // if (thumnail) formData.append("thumnail", thumnail);
+      // Only append if a new file is selected
       formData.append("author", author);
 
       const response = await axios.patch(
-        `https://blogs-platform-backend.onrender.com/articles/${id}`, 
+        `https://blogs-platform-backend.onrender.com/articles/${id}`,
         formData
       );
       console.log(response);
@@ -88,6 +84,7 @@ console.log(article);
       setShortDescription("");
       setCategories("");
       toast.success("Article updated successfully");
+      // router.push(`/blog/view/${id}`);
     } catch (error) {
       console.log("Something went wrong", error);
       toast.error("Something went wrong while updating the article");
@@ -150,7 +147,6 @@ console.log(article);
               placeholder="Provide short Information of your Article"
               value={shortDescription}
               className="border p-4 w-full rounded-lg"
-              // onChange={setShortDescription}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
                 setShortDescription(e.target.value)
               }
@@ -163,26 +159,25 @@ console.log(article);
               value={content}
               placeholder="write your article here.."
               className="border w-full"
-              ref={quillRef}
               onChange={setContent}
-              // onChange={(value) => setContent(stripHtml(value))}
               // onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
               //   setContent(e.target.value)
               // }
             />
           </div>
 
-         <div className="space-y-1">
-          <p className="font-bold">Thumbnail</p>
-         <input
-            type="file"
-            className="border p-4 rounded-lg"
-            ref={fileInputRef}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setThumnail(e.target.files?.[0] || null) // Fixed typo
-            }
-          />
-         </div>
+          <div className="space-y-1">
+            <p className="font-bold">Thumbnail</p>
+            <input
+              type="file"
+              className="border p-4 rounded-lg"
+              ref={fileInputRef}
+              onChange={
+                (e: React.ChangeEvent<HTMLInputElement>) =>
+                  setThumnail(e.target.files?.[0] || null) // Fixed typo
+              }
+            />
+          </div>
 
           <div className="flex justify-center">
             <Button type="submit" className="border p-5 font-bold rounded-md">

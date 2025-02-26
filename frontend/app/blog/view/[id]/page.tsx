@@ -6,28 +6,43 @@ import axios from "axios";
 import { ChevronRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 export default function Page() {
   const { id } = useParams();
   const [article, setArticle] = useState<IArticle | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const router = useRouter();
 
-  const fetchSingleArticles = async () => {
-    try {
-      const response = await axios.get(
-        `https://blogs-platform-backend.onrender.com/articles/${id}`
-      );
-      console.log(response.data.articles);
-      setArticle(response.data.articles);
-    } catch (error) {
-      console.log("something went wrong", error);
-      toast.error("something went wrong while fetching data");
-    }
+  // Helper function to convert HTML to plain text with paragraph spacing
+  const htmlToPlainText = (html: string) => {
+    if (!html) return "";
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = html;
+    const paragraphs = Array.from(tempDiv.getElementsByTagName("p"))
+      .map((p) => p.textContent?.trim() ?? "")
+      .filter((text) => text.length > 0);
+    return paragraphs.join("\n\n");
   };
-
   useEffect(() => {
+    const fetchSingleArticles = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          `https://blogs-platform-backend.onrender.com/articles/${id}`
+        );
+        console.log(response.data.articles);
+        setArticle(response.data.articles);
+        console.log(response.data);
+      } catch (error) {
+        console.log("something went wrong", error);
+        toast.error("something went wrong while fetching data");
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchSingleArticles();
   }, [id]);
 
@@ -38,23 +53,32 @@ export default function Page() {
       );
       console.log(response);
       toast.success("deleted succesfully");
-      fetchSingleArticles();
+      router.push("/"); // Redirect to home page after deletion
     } catch (error) {
       console.log("something went wrong", error);
       toast.error("can not delete a post");
     }
   };
 
+  if (loading) {
+    return <div className="text-center py-8">Loading...</div>; // Loading state
+  }
+
+  if (!article) {
+    return <div className="text-center py-8">Article not found</div>; // Handle null article
+  }
+
+  const plainContent = htmlToPlainText(article.content); // Convert HTML to plain text
   return (
     <div>
-      <div className="py-4  space-y-16">
+      <div className="p-4  space-y-16">
         <div className="flex flex-col justify-center items-center space-y-4">
           <div className="flex gap-1 items-center text-sm">
             <Link href="/">
               <p className="text-sm">Home</p>
             </Link>
             <ChevronRight className="h-4 w-4" />
-            <p className="text-sm">{article?.categories} </p>
+            <p className="text-sm">{article?.categories.trim()} </p>
             <ChevronRight className="h-4 w-4" />
             <p className="opacity-60 text-sm">{article?.title} </p>
           </div>
@@ -76,17 +100,20 @@ export default function Page() {
           </p>
         </div>
         <Image
-          className="h-full w-full rounded-xl"
-          src={article?.thumnail || ""}
+          className="lg:h-[600px]  w-full rounded-xl"
+          src={
+            article?.thumnail ||
+            "https://images.unsplash.com/photo-1496171367470-9ed9a91ea931?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          }
           alt="thumbnail"
           height={100}
           width={100}
           unoptimized={true}
         />
 
-        <div className=" p-4">
+        <div>
           <div>
-            {article?.content.split("\n\n").map(
+            {plainContent?.split("\n\n").map(
               (
                 paragraph,
                 index //split turns string into array with spliting paragraph
@@ -98,18 +125,18 @@ export default function Page() {
             )}
           </div>
 
-          <div className="flex justify-between items-center">
+          <div className="mt-12 flex justify-between">
             <Link href={`/update/${id}`}>
-              <Button className="bg-[#8C88F6] hover:bg-[#8C88F6] mt-12 hover:shadow-2xl font-bold">
-                Make Changes to the Article
-              </Button>
+            <Button className="bg-[#8C88F6] hover:bg-[#8C88F6]  hover:shadow-2xl font-bold">
+              Make Changes to the Article
+            </Button>
             </Link>
-            <p
+            <Button
               className="p-2 cursor-pointer bg-red-500 rounded-md text-white"
               onClick={() => handleDelete()}
             >
               Delete this article
-            </p>
+            </Button>
           </div>
         </div>
       </div>

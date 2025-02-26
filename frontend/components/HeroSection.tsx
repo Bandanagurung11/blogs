@@ -71,13 +71,14 @@ export default function HeroSection() {
         </p>
       </div>
       <hr />
+
       <div className="space-y-8">
         <p className="text-center lg:font-bold text-sm opacity-60">
           EXPLORE TRENDING TOPICS
         </p>
 
         <div className="grid grid-cols-2 lg:grid-cols-6 gap-4 lg:w-9/12 mx-auto">
-          {button.map((eachItems, index) => (
+          {button.map((eachItems, index:number) => (
             <div
               key={index}
               className={`flex items-center justify-center
@@ -87,7 +88,7 @@ export default function HeroSection() {
                 ${index === 6 ? " lg:col-start-3" : ""} 
                 ${index === 7 ? " lg:col-start-4" : ""}`}
             >
-              {/* <Link href={eachItems.href}> */}
+              
               <button
                 // onClick={() => router.push(eachItems.href)} for a static route
                 onClick={() => router.push(`/categories/${eachItems.href}`)} // for dynamic route
@@ -96,7 +97,7 @@ export default function HeroSection() {
                 <p> {eachItems.icon}</p>
                 <p>{eachItems.name}</p>
               </button>
-              {/* </Link> */}
+              
             </div>
           ))}
         </div>

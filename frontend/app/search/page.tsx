@@ -1,5 +1,4 @@
 "use client";
-
 import { useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -8,9 +7,10 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import axios from "axios";
 import Image from "next/image";
-import { IArticle } from "../page";
+import { IArticle } from "@/app/page";
+import { Suspense } from "react";
 
-export default function Page() {
+function SearchResults() {
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
   const [searchResults, setSearchResults] = useState<IArticle[]>([]);
@@ -41,13 +41,15 @@ export default function Page() {
   };
 
   const handleSearchClick = () => {
-    if (searchQuery.trim()) {// trim() function remove unneccessary space from the query
+    if (searchQuery.trim()) {
+      // trim() function remove unneccessary space from the query
       handleSearch(searchQuery);
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") { //when enter key is pressed it trigger handlesearchclick function
+    if (e.key === "Enter") {
+      //when enter key is pressed it trigger handlesearchclick function
       handleSearchClick();
     }
   };
@@ -87,7 +89,7 @@ export default function Page() {
       {/* Search Results */}
       <div className="grid lg:grid-cols-3 gap-6">
         {searchResults.length > 0 ? (
-          searchResults.map((result:IArticle, index:number) => (
+          searchResults.map((result: IArticle, index: number) => (
             <Link key={index} href={`/articles/${result._id}`}>
               <div className="cursor-pointer space-y-4">
                 <Link href={`/blog/view/${result._id}`}>
@@ -104,7 +106,7 @@ export default function Page() {
                   <div className="space-y-2 mb-8">
                     <p>
                       <Link href="/author">
-                      <span className="text-blue-600">{result.author}</span>{" "}
+                        <span className="text-blue-600">{result.author}</span>{" "}
                       </Link>
                       <span className="opacity-60">
                         on {new Date(result.updatedAt).toDateString()}
@@ -130,4 +132,12 @@ export default function Page() {
       </div>
     </div>
   );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<div>Loading search results...</div>}>
+    <SearchResults/>
+    </Suspense>
+  )
 }
