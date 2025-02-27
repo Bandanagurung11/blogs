@@ -2,6 +2,7 @@ import express from "express";
 // extracting express module form express package;
 import mongoose from "mongoose";
 //helps interact with database
+
 import cors from "cors";
 // middleware, cross origin resources sharing, allow only specified domain request to pass to the database
 import "dotenv/config";
@@ -10,7 +11,18 @@ const app = express();
 // assigning express to the app so the app is server here
 app.use(express.json());
 // data get and send in object format only
-app.use(cors());
+// app.use(cors()); allowed for all origin
+
+const corsOptions = {
+  origin: [
+    ` http://localhost:${process.env.PORT || 3000}`, // Your local Next.js dev server
+    process.env.FRONTEND_URL, // Your deployed frontend
+  ],
+  methods: ["GET", "POST", "PATCH", "DELETE"],
+  allowedHeaders: ["Content-Type"],
+  credentials: true, // If your app uses cookies or auth
+};
+app.use(cors(corsOptions));
 
 import multer from "multer"; // to extract data from frontend to the server in form-data format
 
@@ -18,9 +30,9 @@ const upload = multer({ dest: "uploads/" });
 
 import { v2 as cloudinary } from "cloudinary";
 
-cloudinary.config({ 
-  cloud_name: process.env.CLOUD_NAME, 
-  api_key: process.env.API_KEY, 
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
   api_secret: process.env.API_SECRET,
 });
 
@@ -130,15 +142,16 @@ app.delete("/users/:id", async (req, res) => {
 });
 
 //for article
-const articleSchema = new mongoose.Schema({
-  author: { type: String, required: true },
-  title: { type: String, required: true },
-  shortDescription: { type: String, required: true },
-  content: { type: String, required: true },
-  thumnail: { type: String },
-  categories : {type: String, required:true},
-},
-{ timestamps: true }
+const articleSchema = new mongoose.Schema(
+  {
+    author: { type: String, required: true },
+    title: { type: String, required: true },
+    shortDescription: { type: String, required: true },
+    content: { type: String, required: true },
+    thumnail: { type: String },
+    categories: { type: String, required: true },
+  },
+  { timestamps: true }
 );
 
 const ArticleTable = mongoose.model("article", articleSchema);
@@ -151,13 +164,14 @@ app.post("/articles", upload.single("thumnail"), async (req, res) => {
     const cloudinaryResponse = await cloudinary.uploader.upload(req.file.path);
     console.log(cloudinaryResponse, "cloudinary response");
 
-    const createarticle = await ArticleTable({...req.body, thumnail:cloudinaryResponse.secure_url}).save();
-    return res
-      .status(200)
-      .json({
-        message: "articles created sucessfully",
-        articles: createarticle,
-      });
+    const createarticle = await ArticleTable({
+      ...req.body,
+      thumnail: cloudinaryResponse.secure_url,
+    }).save();
+    return res.status(200).json({
+      message: "articles created sucessfully",
+      articles: createarticle,
+    });
   } catch (error) {
     console.log("something went wrong", error);
     return res.status(201).json({ message: "couldn't create a user" });
@@ -193,32 +207,38 @@ app.get("/articles/:id", async (req, res) => {
 app.patch("/articles/:id", upload.single("thumnail"), async (req, res) => {
   try {
     const articleExit = await ArticleTable.findById(req.params.id);
-    if(!articleExit){
-      return res.status(400).json({
-        message : "article not found"
-      })
+    if (!articleExit) {
+      return res.status(404).json({
+        message: "article not found",
+      });
     }
-    if(req.file){
-      const cloudinaryResponse = await cloudinary.uploader.upload(req.file.path);
-    console.log(cloudinaryResponse, "cloudinary response");
-    const updatedArticle = await ArticleTable.findByIdAndUpdate(
+    if (req.file) {
+      const cloudinaryResponse = await cloudinary.uploader.upload(
+        req.file.path
+      );
+      console.log(cloudinaryResponse, "cloudinary response");
+      const updatedArticle = await ArticleTable.findByIdAndUpdate(
+        req.params.id,
+        { ...req.body, thumnail: cloudinaryResponse.secure_url },
+        { new: true }
+      );
+      return res.status(200).json({
+        message: "article updates sucessfully",
+        updatedArticle: updatedArticle,
+      });
+    }
+    const updatedArticle = await Article.findByIdAndUpdate(
       req.params.id,
-      {...req.body, thumnail:cloudinaryResponse.secure_url},
+      req.body,
       { new: true }
     );
-    return res.status(200).json({
-      message: "article updates sucessfully",
-      updatedArticleArticle : updatedArticle
-    })
-    }
-    const updatedArticle = await Article.findByIdAndUpdate(req.params.id, req.body, { new: true });
     return res.status(200).json({
       message: "article updated sucessfully",
       article: updatedArticle,
     });
   } catch (error) {
     console.log("something went wrong", error);
-    res.json({error:error});
+    res.status(500).json({ error: error });
   }
 });
 
@@ -232,7 +252,6 @@ app.delete("/articles/:id", async (req, res) => {
     console.log("something went wrong", error);
   }
 });
-
 
 // This is for a search operation
 // Search route
@@ -268,4 +287,3 @@ app.get("/search", async (req, res) => {
     res.status(500).json({ error: "Something went wrong" });
   }
 });
-
