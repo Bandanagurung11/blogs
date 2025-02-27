@@ -71,7 +71,7 @@ export default function Page() {
   const plainContent = htmlToPlainText(article.content); // Convert HTML to plain text
   return (
     <div>
-      <div className="p-4  space-y-16">
+      <div className="p-4 space-y-8 lg:space-y-14">
         <div className="flex flex-col justify-center items-center space-y-4">
           <div className="flex gap-1 items-center text-sm">
             <Link href="/">
@@ -127,9 +127,9 @@ export default function Page() {
 
           <div className="mt-12 flex justify-between">
             <Link href={`/update/${id}`}>
-            <Button className="bg-[#8C88F6] hover:bg-[#8C88F6]  hover:shadow-2xl font-bold">
-              Make Changes to the Article
-            </Button>
+              <Button className="bg-[#8C88F6] hover:bg-[#8C88F6]  hover:shadow-2xl font-bold">
+                Make Changes to the Article
+              </Button>
             </Link>
             <Button
               className="p-2 cursor-pointer bg-red-500 rounded-md text-white"

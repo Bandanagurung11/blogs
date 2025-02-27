@@ -16,7 +16,7 @@ export default function BlogCard({ article}: {article : IArticle[]}) {
             <div className=" space-y-4 lg:flex items-center gap-6">
               <Link href={`/blog/view/${card._id}`}>
                 <Image
-                  className="h-44 w-full lg:w-[800px] rounded-xl"
+                  className="h-52 w-full lg:w-[800px] rounded-xl"
                   //
                   src={
                     card.thumnail ||
