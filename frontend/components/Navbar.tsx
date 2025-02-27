@@ -112,7 +112,7 @@ export default function Navbar() {
   const [searchOpen, setSearchOpen] = useState(false);
 
   return (
-    <div className="flex justify-between items-center p-6">
+    <div className="flex justify-between items-center pl-6 py-8 lg:p-6">
 
       {/* slider menu in small screen */}
       <LeftDrawer/>
@@ -204,7 +204,7 @@ export default function Navbar() {
       <div className="flex gap-6 items-center">
         <div className="flex items-center">
           <div className="relative">
-          <div className="relative hover:bg-[#F2F2F6] dark:bg-[#3D3D3D]  p-2 rounded-full">
+          <div className="relative hover:bg-[#F2F2F6] dark:bg-[#3D3D3D]  lg:p-2 rounded-full">
             <Search className="h-5 w-5 cursor-pointer" onClick={()=>setSearchOpen(!searchOpen)} />
           </div>
           {
