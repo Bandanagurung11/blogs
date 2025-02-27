@@ -15,7 +15,7 @@ app.use(express.json());
 
 const corsOptions = {
   origin: [
-    ` http://localhost:${process.env.PORT || 3000}`, // Your local Next.js dev server
+    process.env.FRONTEND_URL_LOCAL, // Your local Next.js dev server
     process.env.FRONTEND_URL, // Your deployed frontend
   ],
   methods: ["GET", "POST", "PATCH", "DELETE"],
