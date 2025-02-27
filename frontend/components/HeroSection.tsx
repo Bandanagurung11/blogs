@@ -58,15 +58,15 @@ export default function HeroSection() {
 
   const router = useRouter();
   return (
-    <div className=" py-12 lg:py-24 space-y-12">
+    <div className=" py-6 lg:py-24 space-y-12">
       <div className="lg:w-9/12 mx-auto text-center space-y-4 pb-10">
-        <p className=" text-2xl lg:text-5xl  text-[#29294B] font-bold leading-tight dark:text-white">
+        <p className=" text-3xl lg:text-5xl  text-[#29294B] font-bold leading-relaxed dark:text-white">
           Heartfelt <span className="text-[#7774E7]">Reflections</span>: Stories
           of Love, Loss, and Growth
         </p>
-        <p className="lg:text-lg opacity-60">
+        <p className="lg:text-lg opacity-60 lg:w-8/12 mx-auto">
           Revision Welcomes to ultimate source for fresh perspectives! Explore{" "}
-          <br /> curated content to enlighten, entertain and engage global
+           curated content to enlighten, entertain and engage global
           readers.
         </p>
       </div>
@@ -92,7 +92,7 @@ export default function HeroSection() {
               <button
                 // onClick={() => router.push(eachItems.href)} for a static route
                 onClick={() => router.push(`/categories/${eachItems.href}`)} // for dynamic route
-                className="h-8 w-44 flex items-center justify-center gap-1 py-6 rounded-2xl shadow-xl"
+                className="h-8 w-44 flex items-center justify-center gap-1 py-6 rounded-2xl shadow-xl dark:bg-[#3D3D3D]"
               >
                 <p> {eachItems.icon}</p>
                 <p>{eachItems.name}</p>
