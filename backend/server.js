@@ -16,9 +16,9 @@ app.use(express.json());
 const corsOptions = {
   origin: [
     process.env.FRONTEND_URL_LOCAL, // Your local Next.js dev server
-    process.env.FRONTEND_URL, // Your deployed frontend
+    process.env.FRONTEND_URL_PROD, // Your deployed frontend
   ],
-  methods: ["GET", "POST", "PATCH", "DELETE"],
+  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type"],
   credentials: true, // If your app uses cookies or auth
 };
